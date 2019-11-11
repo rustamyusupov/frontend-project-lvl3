@@ -6,9 +6,8 @@ plugins:
   - jest
 
 extends:
-  - "airbnb-base"
-  - "plugin:jest/recommended"
-  - "plugin:lodash-fp/recommended"
+  - 'airbnb-base'
+  - 'plugin:jest/recommended'
 
 env:
   node: true
