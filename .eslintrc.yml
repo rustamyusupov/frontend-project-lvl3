@@ -1,0 +1,18 @@
+parser: babel-eslint
+
+plugins:
+  - babel
+  - import
+  - jest
+
+extends:
+  - "airbnb-base"
+  - "plugin:jest/recommended"
+  - "plugin:lodash-fp/recommended"
+
+env:
+  node: true
+  jest: true
+
+rules:
+  no-console: 0
