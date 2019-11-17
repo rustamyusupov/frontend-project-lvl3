@@ -22,6 +22,7 @@ module.exports = {
       template: 'src/index.html',
     }),
   ],
+  devtool: 'eval-source-map',
   devServer: {
     port: 3000,
     hot: true,
