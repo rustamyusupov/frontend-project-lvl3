@@ -1,6 +1,6 @@
 import { promises as fs } from 'fs';
 import path from 'path';
-import init from '../src/init';
+import app from '../src/app';
 
 beforeEach(async () => {
   const pathToHtml = path.resolve(__dirname, '__fixtures__/index.html');
@@ -12,5 +12,5 @@ beforeEach(async () => {
 
 // eslint-disable-next-line jest/expect-expect
 test('init', () => {
-  init();
+  app();
 });
