@@ -3,6 +3,9 @@
 import '@babel/polyfill';
 import { watch } from 'melanke-watchjs';
 import isURL from 'validator/lib/isURL';
+import axios from 'axios';
+
+import parse from './parser';
 
 export default () => {
   const form = document.querySelector('.js-form');
@@ -11,10 +14,11 @@ export default () => {
 
   const state = {
     url: null,
+    feeds: [],
   };
 
   watch(state, 'url', () => {
-    if (isURL(state.url)) {
+    if (isURL(state.url) || isFeedExist) {
       input.classList.remove('is-invalid');
       button.disabled = false;
     } else {
@@ -26,10 +30,18 @@ export default () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // const formData = new FormData(event.target);
-    // const url = formData.get('url');
+    axios.get(state.url)
+      .then((response) => {
+        const { data } = response;
+        const { title, description, items } = parse(data);
 
-    // state.url = url;
+        state.feeds.push({
+          url: state.url, title, description, items,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const handleInput = (event) => {
