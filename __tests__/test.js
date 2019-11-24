@@ -3,7 +3,7 @@ import path from 'path';
 import app from '../src/app';
 
 beforeEach(async () => {
-  const pathToHtml = path.resolve(__dirname, '__fixtures__/index.html');
+  const pathToHtml = path.resolve(__dirname, '../src/index.html');
   const html = await fs.readFile(pathToHtml, 'utf8');
 
   // eslint-disable-next-line no-undef
