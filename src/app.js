@@ -1,35 +1,38 @@
 /* eslint-disable no-undef */
 
 import '@babel/polyfill';
+import { watch } from 'melanke-watchjs';
 import isURL from 'validator/lib/isURL';
 
 export default () => {
   const form = document.querySelector('.js-form');
   const input = document.querySelector('.js-input');
 
-  const validate = (value, validator = v => v) => {
-    if (!validator(value)) {
-      input.classList.add('is-invalid');
-
-      return;
-    }
-
-    input.classList.remove('is-invalid');
+  const state = {
+    url: null,
   };
 
-  const handleSubmit = event => {
+  watch(state, 'url', () => {
+    if (isURL(state.url)) {
+      input.classList.remove('is-invalid');
+    } else {
+      input.classList.add('is-invalid');
+    }
+  });
+
+  const handleSubmit = (event) => {
     event.preventDefault();
 
     const formData = new FormData(event.target);
     const url = formData.get('url');
 
-    validate(url, isURL);
+    state.url = url;
   };
 
-  const handleInput = event => validate(event.target.value);
-  const handleBlur = event => validate(event.target.value, isURL);
+  const handleInput = (event) => {
+    state.url = event.target.value;
+  };
 
   form.addEventListener('submit', handleSubmit);
   input.addEventListener('input', handleInput);
-  input.addEventListener('blur', handleBlur);
 };
