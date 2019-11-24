@@ -39,6 +39,10 @@ export default () => {
     }
   });
 
+  const handleInput = (event) => {
+    state.url = event.target.value;
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -56,10 +60,6 @@ export default () => {
       });
   };
 
-  const handleInput = (event) => {
-    state.url = event.target.value;
-  };
-
-  form.addEventListener('submit', handleSubmit);
   input.addEventListener('input', handleInput);
+  form.addEventListener('submit', handleSubmit);
 };
