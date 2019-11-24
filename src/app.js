@@ -15,15 +15,27 @@ export default () => {
   const state = {
     url: null,
     feeds: [],
+    form: '',
   };
 
   watch(state, 'url', () => {
-    if (isURL(state.url)) {
-      input.classList.remove('is-invalid');
-      button.disabled = false;
-    } else {
-      input.classList.add('is-invalid');
-      button.disabled = true;
+    state.form = isURL(state.url) ? 'valid' : 'invalid';
+  });
+
+  watch(state, 'form', () => {
+    switch (state.form) {
+      case 'invalid':
+        input.classList.add('is-invalid');
+        button.disabled = true;
+        break;
+
+      case 'valid':
+        input.classList.remove('is-invalid');
+        button.disabled = false;
+        break;
+
+      default:
+        break;
     }
   });
 
