@@ -7,7 +7,7 @@ export default () => {
   const form = document.querySelector('.js-form');
   const input = document.querySelector('.js-input');
 
-  const validate = (value, validator = (v) => v) => {
+  const validate = (value, validator = v => v) => {
     if (!validator(value)) {
       input.classList.add('is-invalid');
 
@@ -17,7 +17,7 @@ export default () => {
     input.classList.remove('is-invalid');
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault();
 
     const formData = new FormData(event.target);
@@ -26,8 +26,8 @@ export default () => {
     validate(url, isURL);
   };
 
-  const handleInput = (event) => validate(event.target.value);
-  const handleBlur = (event) => validate(event.target.value, isURL);
+  const handleInput = event => validate(event.target.value);
+  const handleBlur = event => validate(event.target.value, isURL);
 
   form.addEventListener('submit', handleSubmit);
   input.addEventListener('input', handleInput);
