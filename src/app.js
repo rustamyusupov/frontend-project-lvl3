@@ -18,7 +18,7 @@ export default () => {
   };
 
   watch(state, 'url', () => {
-    if (isURL(state.url) || isFeedExist) {
+    if (isURL(state.url)) {
       input.classList.remove('is-invalid');
       button.disabled = false;
     } else {
