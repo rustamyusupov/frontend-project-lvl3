@@ -12,6 +12,8 @@ export default () => {
   const form = document.querySelector('.js-form');
   const input = document.querySelector('.js-input');
   const button = document.querySelector('.js-button');
+  const feeds = document.querySelector('.js-feeds');
+  const posts = document.querySelector('.js-posts');
 
   const state = {
     url: null,
@@ -56,7 +58,14 @@ export default () => {
   });
 
   watch(state, 'feeds', () => {
-    console.log(state.feeds);
+    const { title, description, items } = state.feeds[state.feeds.length - 1];
+    const feed = document.createElement('li');
+    const links = items.map((item) => `<li class="list-group-item"><a href="${item.link}">${item.title}</a></li>`).join('');
+
+    feed.classList.add('list-group-item');
+    feed.innerHTML = `<h3>${title}</h3><span>${description}</span>`;
+    feeds.append(feed);
+    posts.innerHTML += links;
   });
 
   const handleInput = (event) => {
