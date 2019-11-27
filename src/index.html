@@ -6,12 +6,20 @@
     <title>RSS Reader</title>
   </head>
   <body>
-    <div class="jumbotron">
-      <h1 class="display-4">RSS Reader</h1>
-      <form class="form-inline d-flex needs-validation js-form" novalidate>
-        <input class="form-control flex-grow-1 mr-2 js-input" name="url" type="text" placeholder="Enter feed" required />
-        <button class="btn btn-primary js-button" type="submit" disabled>Add</button>
+    <div class="jumbotron container-fluid">
+      <h1 class="display-6">RSS Reader</h1>
+      <form class="form-inline d-flex needs-validation justify-content-start js-form" novalidate>
+        <input class="form-control flex-grow-1 col-8 mr-2 js-input" name="url" type="text" placeholder="Enter feed" required />
+        <button class="btn btn-primary col-2 js-button" type="submit" disabled>Add</button>
       </form>
+    </div>
+    <div class="row container-fluid justify-content-between">
+      <div class="col-4">
+        <ul class="list-group js-feeds"></ul>
+      </div>
+      <div class="col-8">
+        <ul class="list-group js-links"></ul>
+      </div>
     </div>
   </body>
 </html>
