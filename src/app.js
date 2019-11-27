@@ -8,7 +8,7 @@ import axios from 'axios';
 import parse from './parser';
 
 export default () => {
-  const cors = 'http://cors-anywhere.herokuapp.com/';
+  const corsProxy = 'http://cors-anywhere.herokuapp.com/';
   const form = document.querySelector('.js-form');
   const input = document.querySelector('.js-input');
   const button = document.querySelector('.js-button');
@@ -66,7 +66,7 @@ export default () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    axios.get(`${cors}${state.url}`)
+    axios.get(`${corsProxy}${state.url}`)
       .then((response) => {
         const { data } = response;
         const { title, description, items } = parse(data);
