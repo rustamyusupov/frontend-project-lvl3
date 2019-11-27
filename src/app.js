@@ -19,7 +19,20 @@ export default () => {
   };
 
   watch(state, 'url', () => {
-    state.form = isURL(state.url) ? 'valid' : 'invalid';
+    const isEmpty = state.url === '';
+    const isExist = state.feeds.find(({ url }) => url === state.url);
+
+    if (isEmpty) {
+      state.form = 'empty';
+      return;
+    }
+
+    if (isURL(state.url) && !isExist) {
+      state.form = 'valid';
+      return;
+    }
+
+    state.form = 'invalid';
   });
 
   watch(state, 'form', () => {
@@ -35,8 +48,14 @@ export default () => {
         break;
 
       default:
-        break;
+        input.value = '';
+        input.classList.remove('is-invalid');
+        button.disabled = true;
     }
+  });
+
+  watch(state, 'feeds', () => {
+    console.log(state.feeds);
   });
 
   const handleInput = (event) => {
@@ -54,8 +73,10 @@ export default () => {
         state.feeds.push({
           url: state.url, title, description, items,
         });
+        state.url = '';
       })
       .catch((error) => {
+        state.form = 'invalid';
         console.log(error);
       });
   };
