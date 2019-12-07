@@ -4,6 +4,7 @@ import '@babel/polyfill';
 import { watch } from 'melanke-watchjs';
 import isURL from 'validator/lib/isURL';
 import axios from 'axios';
+import $ from 'jquery';
 
 import parse from './parser';
 
@@ -14,11 +15,14 @@ export default () => {
   const button = document.querySelector('.js-button');
   const feeds = document.querySelector('.js-feeds');
   const posts = document.querySelector('.js-posts');
+  const modal = document.querySelector('.js-modal');
 
   const state = {
     url: null,
     feeds: [],
     form: '',
+    modal: '',
+    description: '',
   };
 
   watch(state, 'url', () => {
@@ -60,12 +64,22 @@ export default () => {
   watch(state, 'feeds', () => {
     const { title, description, items } = state.feeds[state.feeds.length - 1];
     const feed = document.createElement('li');
-    const links = items.map((item) => `<li class="list-group-item"><a href="${item.link}">${item.title}</a></li>`).join('');
+    const links = items.map((item) => `<li class="list-group-item d-flex justify-content-between align-items-center"><a href="${item.link}">${item.title}</a><button type="button" class="btn btn-info ml-5" data-toggle="modal" data-target="#descriptionModal" data-description="${item.description}">Description</button></li>`).join('');
 
     feed.classList.add('list-group-item');
     feed.innerHTML = `<h3>${title}</h3><span>${description}</span>`;
     feeds.append(feed);
     posts.innerHTML += links;
+  });
+
+  watch(state, 'modal', () => {
+    if (!state.modal) {
+      return;
+    }
+
+    const content = modal.querySelector('.modal-text');
+
+    content.textContent = state.description;
   });
 
   const handleInput = (event) => {
@@ -93,4 +107,17 @@ export default () => {
 
   input.addEventListener('input', handleInput);
   form.addEventListener('submit', handleSubmit);
+
+  $('#descriptionModal').on('show.bs.modal', (event) => {
+    const descriptionButton = $(event.relatedTarget);
+    const description = descriptionButton.data('description');
+
+    state.modal = 'active';
+    state.description = description;
+  });
+
+  $('#descriptionModal').on('hide.bs.modal', () => {
+    state.modal = '';
+    state.description = '';
+  });
 };
