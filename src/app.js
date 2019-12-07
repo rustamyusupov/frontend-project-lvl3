@@ -54,6 +54,10 @@ export default () => {
         button.disabled = false;
         break;
 
+      case 'progress':
+        button.disabled = true;
+        break;
+
       default:
         input.value = '';
         input.classList.remove('is-invalid');
@@ -89,6 +93,8 @@ export default () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    state.form = 'progress';
+
     axios.get(`${corsProxy}${state.url}`)
       .then((response) => {
         const { data } = response;
@@ -98,6 +104,7 @@ export default () => {
           url: state.url, title, description, items,
         });
         state.url = '';
+        state.form = 'valid';
       })
       .catch((error) => {
         state.form = 'invalid';
