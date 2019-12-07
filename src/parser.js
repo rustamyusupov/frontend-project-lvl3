@@ -10,8 +10,9 @@ export default (xml) => {
   const itemsList = [...items].map((item) => {
     const itemTitle = item.querySelector('title').textContent;
     const itemLink = item.querySelector('link').textContent;
+    const itemDescription = item.querySelector('description').textContent;
 
-    return { title: itemTitle, link: itemLink };
+    return { title: itemTitle, link: itemLink, description: itemDescription };
   });
 
   return { title, description, items: itemsList };
