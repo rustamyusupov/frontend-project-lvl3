@@ -5,6 +5,7 @@ import { watch } from 'melanke-watchjs';
 import isURL from 'validator/lib/isURL';
 import axios from 'axios';
 import $ from 'jquery';
+import _ from 'lodash';
 
 import parse from './parser';
 
@@ -24,6 +25,70 @@ export default () => {
     modal: '',
     description: '',
   };
+
+  const updateFeeds = (url, data) => {
+    const { title, description, items } = parse(data);
+    const isFeedExist = state.feeds
+      .map((item) => item.url)
+      .includes(url);
+
+    if (isFeedExist) {
+      const currentFeed = state.feeds.find((item) => item.url === url);
+      const newItems = _.differenceBy(items, currentFeed.items, 'link');
+
+      if (newItems.length > 0) {
+        currentFeed.items.push(...newItems);
+      }
+    } else {
+      state.feeds.push({
+        url, title, description, items,
+      });
+      state.url = '';
+      state.form = 'valid';
+    }
+  };
+
+  const fetchRSS = (url) => {
+    axios.get(`${corsProxy}${url}`)
+      .then((response) => {
+        const { data } = response;
+
+        updateFeeds(url, data);
+
+        setTimeout(() => {
+          fetchRSS(url);
+        }, 5000);
+      })
+      .catch((error) => {
+        state.form = 'invalid';
+        console.log(error);
+      });
+  };
+
+  const addFeed = (title, description) => {
+    const feed = document.createElement('li');
+
+    feed.classList.add('list-group-item');
+    feed.innerHTML = `<h3>${title}</h3><span>${description}</span>`;
+    feeds.append(feed);
+  };
+
+  const addPosts = (items) => {
+    const links = items.map((item) => `<li class="list-group-item d-flex justify-content-between align-items-center"><a href="${item.link}">${item.title}</a><button type="button" class="btn btn-info ml-5" data-toggle="modal" data-target="#descriptionModal" data-description="${item.description}">Description</button></li>`).join('');
+
+    posts.innerHTML += links;
+  };
+
+  const handleInput = (event) => {
+    state.url = event.target.value;
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    state.form = 'progress';
+    fetchRSS(state.url);
+  };
+
 
   watch(state, 'url', () => {
     const isEmpty = state.url === '';
@@ -66,14 +131,15 @@ export default () => {
   });
 
   watch(state, 'feeds', () => {
-    const { title, description, items } = state.feeds[state.feeds.length - 1];
-    const feed = document.createElement('li');
-    const links = items.map((item) => `<li class="list-group-item d-flex justify-content-between align-items-center"><a href="${item.link}">${item.title}</a><button type="button" class="btn btn-info ml-5" data-toggle="modal" data-target="#descriptionModal" data-description="${item.description}">Description</button></li>`).join('');
+    feeds.innerHTML = '';
+    posts.innerHTML = '';
 
-    feed.classList.add('list-group-item');
-    feed.innerHTML = `<h3>${title}</h3><span>${description}</span>`;
-    feeds.append(feed);
-    posts.innerHTML += links;
+    state.feeds.map(({ title, description, items }) => {
+      addFeed(title, description);
+      addPosts(items);
+
+      return null;
+    });
   });
 
   watch(state, 'modal', () => {
@@ -85,32 +151,6 @@ export default () => {
 
     content.textContent = state.description;
   });
-
-  const handleInput = (event) => {
-    state.url = event.target.value;
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    state.form = 'progress';
-
-    axios.get(`${corsProxy}${state.url}`)
-      .then((response) => {
-        const { data } = response;
-        const { title, description, items } = parse(data);
-
-        state.feeds.push({
-          url: state.url, title, description, items,
-        });
-        state.url = '';
-        state.form = 'valid';
-      })
-      .catch((error) => {
-        state.form = 'invalid';
-        console.log(error);
-      });
-  };
 
   input.addEventListener('input', handleInput);
   form.addEventListener('submit', handleSubmit);
