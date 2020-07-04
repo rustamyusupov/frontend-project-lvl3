@@ -6,12 +6,13 @@ plugins:
   - jest
 
 extends:
-  - 'airbnb-base'
-  - 'plugin:jest/recommended'
+  - "airbnb-base"
+  - "plugin:jest/recommended"
 
 env:
   node: true
   jest: true
+  browser: true
 
 rules:
   no-console: 0
