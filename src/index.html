@@ -2,40 +2,57 @@
 <html lang="ru">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
     <title>RSS Reader</title>
   </head>
-  <body>
-    <div class="jumbotron container-fluid">
-      <h1 class="display-6">RSS Reader</h1>
-      <form class="form-inline d-flex needs-validation justify-content-start js-form" novalidate>
-        <input class="form-control flex-grow-1 col-8 mr-2 js-input" name="url" type="text" placeholder="Enter feed" required />
-        <button class="btn btn-primary col-2 js-button" type="submit" disabled>Add</button>
-      </form>
-    </div>
-    <div class="row container-fluid justify-content-between">
-      <div class="col-4">
-        <ul class="list-group js-feeds"></ul>
-      </div>
-      <div class="col-8">
-        <ul class="list-group js-posts"></ul>
-      </div>
-    </div>
-
-    <div id="descriptionModal" class="modal fade js-modal" tabindex="-1" role="dialog" aria-labelledby="descriptionLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="descriptionLabel">Description</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <p class="modal-text"></p>
+  <body class="d-flex flex-column min-vh-100">
+    <main class="flex-grow-1">
+      <section class="jumbotron jumbotron-fluid bg-dark">
+        <div class="container-xl">
+          <div class="row">
+            <div class="col-md-10 col-lg-8 mx-auto text-white">
+              <h1 class="display-3">RSS Reader</h1>
+              <p class="lead">
+                Start reading RSS today! It is easy, it is nicely.
+              </p>
+              <form action="" class="rss-form">
+                <div class="form-row">
+                  <div class="col">
+                    <input
+                      class="form-control form-control-lg w-100"
+                      name="url"
+                      type="text"
+                      placeholder="RSS link"
+                      required
+                    />
+                  </div>
+                  <div class="col-auto">
+                    <button
+                      class="btn btn-lg btn-primary px-sm-5"
+                      type="submit"
+                    >
+                      Add
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <p class="text-muted my-1">
+                Example:
+                https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml
+              </p>
+              <div class="feedback"></div>
+            </div>
           </div>
         </div>
+      </section>
+      <div class="container-xl">
+        <div class="row">
+          <div class="col-md-10 col-lg-8 mx-auto feeds"></div>
+        </div>
       </div>
-    </div>
+    </main>
   </body>
 </html>
