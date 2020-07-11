@@ -6,6 +6,6 @@ export const form = (state) => onChange(state.form, () => {
   // renderForm(state);
 });
 
-export const validation = (state) => onChange(state.form.errors, (_, value) => {
-  renderValidation(value);
+export const validation = (state) => onChange(state.form.errors, () => {
+  renderValidation(state);
 });
