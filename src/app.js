@@ -1,9 +1,12 @@
+import { size } from 'lodash/fp';
+
 import { validation } from './watchers';
 import validate from './validator';
 
 const app = () => {
   const state = {
     form: {
+      validationState: 'valid',
       errors: [],
     },
     feeds: [],
@@ -15,8 +18,11 @@ const app = () => {
 
   const handleInput = (e) => {
     const url = e.currentTarget.value;
+    const errors = validate(url, []);
 
-    validationWatcher.errors = validate(url, []);
+    state.form.errors = errors;
+    state.form.validationState = size(errors) > 0 ? 'invalid' : 'valid';
+    validationWatcher.errors = errors;
   };
 
   const handleSubmit = (e) => {
