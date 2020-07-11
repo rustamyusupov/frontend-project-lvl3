@@ -5,7 +5,13 @@ const validator = (url, urls) => {
     url: string().required().url().notOneOf(urls),
   });
 
-  return schema.validate({ url });
+  try {
+    schema.validateSync({ url });
+
+    return {};
+  } catch (err) {
+    return err.errors;
+  }
 };
 
 export default validator;
