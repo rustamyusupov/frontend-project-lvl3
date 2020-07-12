@@ -1,6 +1,6 @@
 import { string, object } from 'yup';
 
-const validator = (url, urls) => {
+const validate = (url, urls) => {
   const schema = object().shape({
     url: string().required().url().notOneOf(urls),
   });
@@ -14,4 +14,4 @@ const validator = (url, urls) => {
   }
 };
 
-export default validator;
+export default validate;
