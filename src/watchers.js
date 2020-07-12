@@ -1,11 +1,18 @@
-import onChange from 'on-change';
+import { form, validation } from './renders';
 
-import renderValidation from './renders/validation';
+const watchers = (path, value) => {
+  switch (path) {
+    case 'form.state':
+      form(value);
+      break;
 
-export const form = (state) => onChange(state.form, () => {
-  // renderForm(state);
-});
+    case 'form.validation':
+      validation(value);
+      break;
 
-export const validation = (state) => onChange(state.form.errors, () => {
-  renderValidation(state);
-});
+    default:
+      break;
+  }
+};
+
+export default watchers;
