@@ -37,10 +37,10 @@ const app = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    watchedState.form.state = 'sending';
-
     const formData = new FormData(e.target);
     const url = formData.get('url');
+
+    watchedState.form.state = 'sending';
 
     axios.get(`${proxy}${url}`)
       .then((response) => {
