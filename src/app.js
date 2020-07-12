@@ -10,8 +10,10 @@ const proxy = 'https://cors-anywhere.herokuapp.com/';
 const app = () => {
   const state = {
     form: {
-      state: 'active',
-      error: '',
+      process: {
+        state: 'active',
+        error: '',
+      },
       validation: {
         state: '',
         errors: [],
@@ -40,16 +42,18 @@ const app = () => {
     const formData = new FormData(e.target);
     const url = formData.get('url');
 
-    watchedState.form.state = 'sending';
+    watchedState.form.process = { state: 'sending', error: '' };
 
     axios.get(`${proxy}${url}`)
       .then((response) => {
         console.log(response);
-        watchedState.form.state = 'finished';
+        watchedState.form.process = { state: 'finished', error: '' };
       })
-      .catch((err) => {
-        console.log(err);
-        watchedState.form.state = 'failed';
+      .catch((error) => {
+        watchedState.form.process = {
+          state: 'failed',
+          error,
+        };
       });
   };
 
