@@ -2,7 +2,7 @@ import { form, validation } from './renders';
 
 const watchers = (path, value) => {
   switch (path) {
-    case 'form.state':
+    case 'form.process':
       form(value);
       break;
 
