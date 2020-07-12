@@ -1,5 +1,5 @@
 import onChange from 'on-change';
-import { size } from 'lodash/fp';
+import { size, uniqueId } from 'lodash/fp';
 import axios from 'axios';
 
 import watchers from './watchers';
@@ -7,6 +7,30 @@ import validate from './validator';
 import parse from './parser';
 
 const proxy = 'https://cors-anywhere.herokuapp.com/';
+
+const getContent = (url, data) => {
+  const feedId = uniqueId();
+
+  const feed = {
+    id: feedId,
+    url,
+    title: data.title,
+    description: data.description,
+  };
+
+  const posts = data.posts.map(({ title, link }) => {
+    const id = uniqueId();
+
+    return {
+      id,
+      feedId,
+      title,
+      link,
+    };
+  });
+
+  return { feed, posts };
+};
 
 const app = () => {
   const state = {
@@ -48,7 +72,8 @@ const app = () => {
     axios.get(`${proxy}${url}`)
       .then((response) => {
         const parsedData = parse(response.data);
-        console.log(parsedData);
+        const content = getContent(url, parsedData);
+        console.log(content);
 
         watchedState.form.process = { state: 'finished', error: '' };
       })
