@@ -1,25 +1,19 @@
-import { uniqueId, differenceBy } from 'lodash/fp';
+import { differenceBy } from 'lodash/fp';
 
 export const getContent = (url, data) => {
-  const feedId = uniqueId();
-
   const feed = {
-    id: feedId,
+    id: url,
     url,
     title: data.title,
     description: data.description,
   };
 
-  const posts = data.posts.map(({ title, link }) => {
-    const id = uniqueId();
-
-    return {
-      id,
-      feedId,
-      title,
-      link,
-    };
-  });
+  const posts = data.posts.map(({ title, link }) => ({
+    id: link,
+    feedId: url,
+    title,
+    link,
+  }));
 
   return { feed, posts };
 };
