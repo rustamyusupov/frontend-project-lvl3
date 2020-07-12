@@ -1,4 +1,4 @@
-import { form, validation } from './renders';
+import { form, validation, content } from './renders';
 
 const watchers = (path, value) => {
   switch (path) {
@@ -8,6 +8,10 @@ const watchers = (path, value) => {
 
     case 'form.validation':
       validation(value);
+      break;
+
+    case 'content':
+      content(value);
       break;
 
     default:
