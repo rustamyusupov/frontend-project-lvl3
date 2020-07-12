@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import watchers from './watchers';
 import validate from './validator';
+import parse from './parser';
 
 const proxy = 'https://cors-anywhere.herokuapp.com/';
 
@@ -46,7 +47,9 @@ const app = () => {
 
     axios.get(`${proxy}${url}`)
       .then((response) => {
-        console.log(response);
+        const parsedData = parse(response.data);
+        console.log(parsedData);
+
         watchedState.form.process = { state: 'finished', error: '' };
       })
       .catch((error) => {
