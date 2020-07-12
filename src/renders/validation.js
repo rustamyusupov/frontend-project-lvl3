@@ -12,6 +12,7 @@ const validation = (state) => {
   const feedback = document.querySelector('.feedback');
 
   form.elements.url.classList.toggle('is-invalid', isInvalid);
+  form.elements.submit.disabled = isInvalid;
   feedback.classList.toggle('text-danger', isInvalid);
   feedback.innerHTML = error;
 };
