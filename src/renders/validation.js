@@ -5,14 +5,14 @@ import {
   getOr,
 } from 'lodash/fp';
 
-const validation = (state) => {
-  const isInvalid = flow(get('form.validationState'), isEqual('invalid'))(state);
-  const error = getOr('', ['form', 'errors', 0])(state);
-  const form = document.querySelector('.rss-form');
+const validation = (value) => {
+  const { url, submit } = document.querySelector('.rss-form').elements;
   const feedback = document.querySelector('.feedback');
+  const isInvalid = flow(get('state'), isEqual('invalid'))(value);
+  const error = getOr('', ['errors', 0])(value);
 
-  form.elements.url.classList.toggle('is-invalid', isInvalid);
-  form.elements.submit.disabled = isInvalid;
+  url.classList.toggle('is-invalid', isInvalid);
+  submit.disabled = isInvalid;
   feedback.classList.toggle('text-danger', isInvalid);
   feedback.innerHTML = error;
 };
