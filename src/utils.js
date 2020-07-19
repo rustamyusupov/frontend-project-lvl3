@@ -23,7 +23,7 @@ export const getDifference = (previous, next) => {
   const newPosts = differenceBy('id', next.posts, previous.posts);
 
   return {
-    feeds: [...previous.feeds, ...newFeeds],
-    posts: [...previous.posts, ...newPosts],
+    feeds: [...newFeeds, ...previous.feeds],
+    posts: [...newPosts, ...previous.posts],
   };
 };
