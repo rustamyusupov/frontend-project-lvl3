@@ -1,3 +1,5 @@
+import i18next from 'i18next';
+
 const form = (value) => {
   const { url, submit } = document.querySelector('.rss-form').elements;
   const feedback = document.querySelector('.feedback');
@@ -25,7 +27,7 @@ const form = (value) => {
       submit.disabled = true;
 
       feedback.classList.add('text-danger');
-      feedback.innerHTML = error;
+      feedback.innerHTML = i18next.t(error);
 
       break;
 

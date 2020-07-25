@@ -20,7 +20,7 @@ const app = () => {
       },
       validation: {
         state: '',
-        error: {},
+        error: '',
       },
     },
     content: {
@@ -68,9 +68,10 @@ const app = () => {
         watchedState.form.process = { state: 'finished', error: '' };
       })
       .catch((error) => {
+        console.log('err', error);
         watchedState.form.process = {
           state: 'failed',
-          error,
+          error: 'request',
         };
       });
   };
