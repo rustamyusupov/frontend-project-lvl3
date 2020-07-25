@@ -1,5 +1,4 @@
 import { string, object } from 'yup';
-import { get } from 'lodash/fp';
 
 const validate = (url, urls) => {
   const schema = object().shape({
@@ -9,9 +8,9 @@ const validate = (url, urls) => {
   try {
     schema.validateSync({ url });
 
-    return [];
-  } catch ({ type, errors }) {
-    return { type, error: get(0)(errors) };
+    return '';
+  } catch ({ type }) {
+    return type;
   }
 };
 

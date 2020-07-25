@@ -1,5 +1,4 @@
 import onChange from 'on-change';
-import { isEmpty } from 'lodash/fp';
 import axios from 'axios';
 import i18next from 'i18next';
 
@@ -45,7 +44,7 @@ const app = () => {
     const error = validate(url, urls);
 
     watchedState.form.validation = {
-      state: isEmpty(error) ? 'valid' : 'invalid',
+      state: error ? 'invalid' : 'valid',
       error,
     };
   };
