@@ -1,5 +1,5 @@
 import onChange from 'on-change';
-import { size } from 'lodash/fp';
+import { isEmpty } from 'lodash/fp';
 import axios from 'axios';
 import i18next from 'i18next';
 
@@ -20,7 +20,7 @@ const app = () => {
       },
       validation: {
         state: '',
-        errors: [],
+        error: {},
       },
     },
     content: {
@@ -41,11 +41,12 @@ const app = () => {
 
   const handleInput = (e) => {
     const url = e.currentTarget.value;
-    const errors = validate(url, []);
+    const urls = state.content.feeds.map((feed) => feed.url);
+    const error = validate(url, urls);
 
     watchedState.form.validation = {
-      state: size(errors) > 0 ? 'invalid' : 'valid',
-      errors,
+      state: isEmpty(error) ? 'valid' : 'invalid',
+      error,
     };
   };
 
