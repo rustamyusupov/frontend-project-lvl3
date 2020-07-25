@@ -1,4 +1,9 @@
-import { map, flow, filter, join } from 'lodash/fp';
+import {
+  map,
+  flow,
+  filter,
+  join,
+} from 'lodash/fp';
 
 const getItem = ({ link, title }) => `<div><a href=${link}>${title}</a></div>`;
 
