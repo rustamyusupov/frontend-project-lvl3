@@ -1,11 +1,13 @@
 import onChange from 'on-change';
 import { size } from 'lodash/fp';
 import axios from 'axios';
+import i18next from 'i18next';
 
+import { getContent, getDifference } from './utils';
 import watchers from './watchers';
 import validate from './validator';
 import parse from './parser';
-import { getContent, getDifference } from './utils';
+import en from './locales/en';
 
 const proxy = 'https://cors-anywhere.herokuapp.com/';
 
@@ -26,6 +28,13 @@ const app = () => {
       posts: [],
     },
   };
+
+  i18next.init({
+    lng: 'en',
+    resources: {
+      en,
+    },
+  });
 
   const watchedState = onChange(state, (path, value) => watchers(path, value));
   const form = document.querySelector('.rss-form');
