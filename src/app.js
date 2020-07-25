@@ -66,8 +66,7 @@ const app = () => {
         watchedState.content = { ...newData };
         watchedState.form.process = { state: 'finished', error: '' };
       })
-      .catch((error) => {
-        console.log('err', error);
+      .catch(() => {
         watchedState.form.process = {
           state: 'failed',
           error: 'request',
