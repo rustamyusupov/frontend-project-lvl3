@@ -17,6 +17,14 @@ i18next.init({
   },
 });
 
+const getNewContent = (data, url, content) => {
+  const parsedData = parse(data);
+  const newContent = getContent(url, parsedData);
+  const newData = getDifference(content, newContent);
+
+  return newData;
+};
+
 const app = () => {
   const state = {
     form: {
@@ -41,11 +49,9 @@ const app = () => {
   const updateFeed = (url) => {
     axios.get(`${proxy}${url}`)
       .then((response) => {
-        const parsedData = parse(response.data);
-        const content = getContent(url, parsedData);
-        const newData = getDifference(state.content, content);
+        const newContent = getNewContent(response.data, url, state.content);
 
-        watchedState.content = { ...newData };
+        watchedState.content = { ...newContent };
       })
       .finally(() => setTimeout(updateFeed, 5000, url));
   };
@@ -71,11 +77,9 @@ const app = () => {
 
     axios.get(`${proxy}${url}`)
       .then((response) => {
-        const parsedData = parse(response.data);
-        const content = getContent(url, parsedData);
-        const newData = getDifference(state.content, content);
+        const newContent = getNewContent(response.data, url, state.content);
 
-        watchedState.content = { ...newData };
+        watchedState.content = { ...newContent };
         watchedState.form.process = { state: 'finished', error: '' };
 
         setTimeout(() => updateFeed(url), 5000);
