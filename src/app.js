@@ -38,6 +38,18 @@ const app = () => {
   const form = document.querySelector('.rss-form');
   const watchedState = onChange(state, (path, value) => watchers(path, value));
 
+  const updateFeed = (url) => {
+    axios.get(`${proxy}${url}`)
+      .then((response) => {
+        const parsedData = parse(response.data);
+        const content = getContent(url, parsedData);
+        const newData = getDifference(state.content, content);
+
+        watchedState.content = { ...newData };
+      })
+      .finally(() => setTimeout(updateFeed, 5000, url));
+  };
+
   const handleInput = (e) => {
     const url = e.currentTarget.value;
     const urls = state.content.feeds.map((feed) => feed.url);
@@ -65,6 +77,8 @@ const app = () => {
 
         watchedState.content = { ...newData };
         watchedState.form.process = { state: 'finished', error: '' };
+
+        setTimeout(() => updateFeed(url), 5000);
       })
       .catch(() => {
         watchedState.form.process = {
