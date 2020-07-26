@@ -10,6 +10,13 @@ import en from './locales/en';
 
 const proxy = 'https://cors-anywhere.herokuapp.com/';
 
+i18next.init({
+  lng: 'en',
+  resources: {
+    en,
+  },
+});
+
 const app = () => {
   const state = {
     form: {
@@ -28,15 +35,8 @@ const app = () => {
     },
   };
 
-  i18next.init({
-    lng: 'en',
-    resources: {
-      en,
-    },
-  });
-
-  const watchedState = onChange(state, (path, value) => watchers(path, value));
   const form = document.querySelector('.rss-form');
+  const watchedState = onChange(state, (path, value) => watchers(path, value));
 
   const handleInput = (e) => {
     const url = e.currentTarget.value;
