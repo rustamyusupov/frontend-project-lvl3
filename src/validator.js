@@ -8,7 +8,7 @@ const validate = (url, urls) => {
   try {
     schema.validateSync({ url });
 
-    return '';
+    return null;
   } catch ({ type }) {
     return type;
   }
