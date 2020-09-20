@@ -15,7 +15,7 @@ const watchers = (path, value) => {
       break;
 
     default:
-      break;
+      throw new Error(`Unknown app state: '${path}', value: ${value}!`);
   }
 };
 
