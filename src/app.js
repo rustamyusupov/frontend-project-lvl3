@@ -10,13 +10,6 @@ import en from './locales/en';
 
 const proxy = 'https://cors-anywhere.herokuapp.com/';
 
-i18next.init({
-  lng: 'en',
-  resources: {
-    en,
-  },
-});
-
 const getNewContent = (data, url, content) => {
   const parsedData = parse(data);
   const newContent = getContent(url, parsedData);
@@ -26,6 +19,13 @@ const getNewContent = (data, url, content) => {
 };
 
 const app = () => {
+  i18next.init({
+    lng: 'en',
+    resources: {
+      en,
+    },
+  });
+
   const state = {
     form: {
       process: {
@@ -47,7 +47,8 @@ const app = () => {
   const watchedState = onChange(state, (path, value) => watchers(path, value));
 
   const updateFeed = (url) => {
-    axios.get(`${proxy}${url}`)
+    axios
+      .get(`${proxy}${url}`)
       .then((response) => {
         const newContent = getNewContent(response.data, url, state.content);
 
@@ -75,7 +76,8 @@ const app = () => {
 
     watchedState.form.process = { state: 'sending', error: '' };
 
-    axios.get(`${proxy}${url}`)
+    axios
+      .get(`${proxy}${url}`)
       .then((response) => {
         const newContent = getNewContent(response.data, url, state.content);
 
