@@ -18,8 +18,8 @@ const getNewContent = (data, url, content) => {
   return newData;
 };
 
-const app = () => {
-  i18next.init({
+const app = async () => {
+  await i18next.init({
     lng: 'en',
     resources: {
       en,
